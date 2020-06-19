@@ -1,0 +1,317 @@
+fileFormatVersion: 2
+guid: a4b92166f22bdac49b96080fb0f88a05
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: bangocam
+    100002: bonruatay
+    100004: cuararvao
+    100006: group1
+    100008: group2
+    100010: group3
+    100012: group5
+    100014: manche
+    100016: pCube1
+    100018: pCube2
+    100020: //RootNode
+    100022: polySurface103
+    100024: polySurface115
+    100026: polySurface120
+    100028: polySurface122
+    100030: polySurface123
+    100032: polySurface125
+    100034: polySurface133
+    100036: polySurface134
+    100038: polySurface139
+    100040: polySurface140
+    100042: polySurface141
+    100044: polySurface142
+    100046: polySurface143
+    100048: polySurface144
+    100050: polySurface145
+    100052: polySurface146
+    100054: polySurface343
+    100056: polySurface52
+    100058: polySurface61
+    100060: polySurface62
+    100062: polySurface71
+    100064: polySurface74
+    100066: polySurface97
+    100068: remcua1
+    100070: remcua2
+    100072: tuongphon
+    100074: tuthuoc1
+    400000: bangocam
+    400002: bonruatay
+    400004: cuararvao
+    400006: group1
+    400008: group2
+    400010: group3
+    400012: group5
+    400014: manche
+    400016: pCube1
+    400018: pCube2
+    400020: //RootNode
+    400022: polySurface103
+    400024: polySurface115
+    400026: polySurface120
+    400028: polySurface122
+    400030: polySurface123
+    400032: polySurface125
+    400034: polySurface133
+    400036: polySurface134
+    400038: polySurface139
+    400040: polySurface140
+    400042: polySurface141
+    400044: polySurface142
+    400046: polySurface143
+    400048: polySurface144
+    400050: polySurface145
+    400052: polySurface146
+    400054: polySurface343
+    400056: polySurface52
+    400058: polySurface61
+    400060: polySurface62
+    400062: polySurface71
+    400064: polySurface74
+    400066: polySurface97
+    400068: remcua1
+    400070: remcua2
+    400072: tuongphon
+    400074: tuthuoc1
+    2100000: painted metal
+    2100002: rubber
+    2100004: canvas
+    2100006: bonrua
+    2100008: cuaravao
+    2100010: rem
+    2100012: tuongphong
+    2100014: blinn1
+    2100016: tuthuoc
+    2100018: bangocam1
+    2300000: bangocam
+    2300002: bonruatay
+    2300004: manche
+    2300006: pCube1
+    2300008: pCube2
+    2300010: polySurface103
+    2300012: polySurface115
+    2300014: polySurface120
+    2300016: polySurface122
+    2300018: polySurface123
+    2300020: polySurface125
+    2300022: polySurface133
+    2300024: polySurface134
+    2300026: polySurface139
+    2300028: polySurface140
+    2300030: polySurface141
+    2300032: polySurface142
+    2300034: polySurface143
+    2300036: polySurface144
+    2300038: polySurface145
+    2300040: polySurface146
+    2300042: polySurface343
+    2300044: polySurface52
+    2300046: polySurface61
+    2300048: polySurface62
+    2300050: polySurface71
+    2300052: polySurface74
+    2300054: polySurface97
+    2300056: remcua1
+    2300058: remcua2
+    3300000: bangocam
+    3300002: bonruatay
+    3300004: manche
+    3300006: pCube1
+    3300008: pCube2
+    3300010: polySurface103
+    3300012: polySurface115
+    3300014: polySurface120
+    3300016: polySurface122
+    3300018: polySurface123
+    3300020: polySurface125
+    3300022: polySurface133
+    3300024: polySurface134
+    3300026: polySurface139
+    3300028: polySurface140
+    3300030: polySurface141
+    3300032: polySurface142
+    3300034: polySurface143
+    3300036: polySurface144
+    3300038: polySurface145
+    3300040: polySurface146
+    3300042: polySurface343
+    3300044: polySurface52
+    3300046: polySurface61
+    3300048: polySurface62
+    3300050: polySurface71
+    3300052: polySurface74
+    3300054: polySurface97
+    3300056: remcua1
+    3300058: remcua2
+    4300000: manche
+    4300002: bonruatay
+    4300004: polySurface140
+    4300006: remcua2
+    4300008: remcua1
+    4300010: polySurface141
+    4300012: polySurface142
+    4300014: polySurface143
+    4300016: polySurface144
+    4300018: polySurface145
+    4300020: polySurface146
+    4300022: polySurface343
+    4300024: polySurface52
+    4300026: polySurface74
+    4300028: polySurface120
+    4300030: polySurface71
+    4300032: polySurface125
+    4300034: polySurface134
+    4300036: polySurface123
+    4300038: polySurface115
+    4300040: polySurface133
+    4300042: polySurface122
+    4300044: polySurface97
+    4300046: polySurface61
+    4300048: polySurface103
+    4300050: polySurface62
+    4300052: polySurface139
+    4300054: pCube1
+    4300056: pCube2
+    4300058: bangocam
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bangocam1
+    second: {fileID: 2100000, guid: 0de469a7904572141bbb7fc729d72904, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blinn1
+    second: {fileID: 2100000, guid: 01fe7827dc711944eb5d5d00fe0d1acf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bonrua
+    second: {fileID: 2100000, guid: 00247df245f75804a80a9f83fe2f2ecc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: canvas
+    second: {fileID: 2100000, guid: 9968cd8fff30f314a801f9bdbc423538, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cuaravao
+    second: {fileID: 2100000, guid: 9e1ed5ffdf0df054bb54cabfab5fd9ac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: painted metal
+    second: {fileID: 2100000, guid: e345f54e40475fa4ca573438fb590259, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rem
+    second: {fileID: 2100000, guid: 8af04d2efce794440ad3c163b16d6b2e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rubber
+    second: {fileID: 2100000, guid: a47eb3c0145b78a4eac12ce1f9e1bad2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tuongphong
+    second: {fileID: 2100000, guid: 869727de40c737948bad8d73b1656f67, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tuthuoc
+    second: {fileID: 2100000, guid: 0c27fcbcc1339e84a8d33aff547d3085, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
