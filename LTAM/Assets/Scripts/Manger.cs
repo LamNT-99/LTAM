@@ -17,7 +17,7 @@ public class Manger : MonoBehaviour
     public float timeCameraMovePos;
     public float timeperFrame;
 
-    bool check = true;
+    bool[] check = new bool[8] ;
     public GameObject UI;
     protected PhraseRecognizer recognizer;
     public string word = "";
@@ -32,6 +32,10 @@ public class Manger : MonoBehaviour
 
     private void Start()
     {
+        for(int i = 0; i < 8; i++)
+        {
+            check[i] = true;
+        }
         if (keywords != null)
         {
             recognizer = new KeywordRecognizer(keywords, confidence);
@@ -46,6 +50,7 @@ public class Manger : MonoBehaviour
         }
         image.sprite = FULLHP[0];
         answerText[0].text = "Door";answerText[1].text = keyWordsN[Random.Range(0, 10)]; answerText[2].text = keyWordsN[Random.Range(0, 10)];
+        keywords = new string[] { "Door" };
     }
 
     private void Recognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
@@ -61,53 +66,92 @@ public class Manger : MonoBehaviour
             case "Door":
                 index = 0;
                 StartCoroutine(SlowlyMovePos());
-                //StartCoroutine(DisplayImage(1));
-                if (check)
+                if (check[0])
                 {
                     UI.SetActive(false);
+                    StartCoroutine(SetActiveUI());
                     Randoms();
-                    check = false;
+                    check[0] = false;
                 }
-                StartCoroutine(SetActiveUI());
                 break;
             case "Curtain":
                 index = 1;
                 StartCoroutine(SlowlyMovePos());
-                StartCoroutine(DisplayImage(2));
+                if (check[1])
+                {
+                    UI.SetActive(false);
+                    StartCoroutine(SetActiveUI());
+                    Randoms();
+                    check[1] = false;
+                }
                 break;
             case "Bed":
                 index = 2;
                 StartCoroutine(SlowlyMovePos());
-                StartCoroutine(DisplayImage(3));
+                if (check[2])
+                {
+                    UI.SetActive(false);
+                    StartCoroutine(SetActiveUI());
+                    Randoms();
+                    check[2] = false;
+                }
                 break;
             case "Book":
                 index = 3;
                 StartCoroutine(SlowlyMovePos());
-                StartCoroutine(DisplayImage(4));
+                if (check[3])
+                {
+                    UI.SetActive(false);
+                    StartCoroutine(SetActiveUI());
+                    Randoms();
+                    check[3] = false;
+                }
                 break;
             case "Sofa":
                 index = 4;
                 StartCoroutine(SlowlyMovePos());
-                StartCoroutine(DisplayImage(5));
+                if (check[4])
+                {
+                    UI.SetActive(false);
+                    StartCoroutine(SetActiveUI());
+                    Randoms();   
+                    check[4] = false;
+                }
                 break;
             case "Phone":
                 index = 5;
                 StartCoroutine(SlowlyMovePos());
-                StartCoroutine(DisplayImage(6));
+                if (check[5])
+                {
+                    UI.SetActive(false);
+                    StartCoroutine(SetActiveUI());
+                    Randoms();                    
+                    check[5] = false;
+                }
                 break;
             case "Tivi":
-                print("log");
                 index = 6;
                 StartCoroutine(SlowlyMovePos());
-                StartCoroutine(DisplayImage(7));
+                if (check[6])
+                {
+                    UI.SetActive(false);
+                    StartCoroutine(SetActiveUI());
+                    Randoms();
+                    check[6] = false;
+                }
                 break;
             case "Table Work":
                 index = 7;
                 StartCoroutine(SlowlyMovePos());
-                StartCoroutine(DisplayImage(7));
+                if (check[7])
+                {
+                    UI.SetActive(false);
+                    StartCoroutine(SetActiveUI());
+                    Randoms();
+                    check[7] = false;
+                }
                 break;
         }
-        
     }
 
     IEnumerator SlowlyMovePos()
@@ -121,11 +165,6 @@ public class Manger : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, objTarget[index].transform.rotation, time);
             time += timeCameraMoveRot;
         }
-    }
-    IEnumerator DisplayImage(int i)
-    {
-        yield return new WaitForSeconds(3f);
-        image.sprite = FULLHP[i];
     }
     private void OnApplicationQuit()
     {
@@ -145,14 +184,34 @@ public class Manger : MonoBehaviour
         else
         {
             image.sprite = FULLHP[i];
+            RandomAnswer(i);
             d[i] = 1;
         }
-        
     }
     IEnumerator SetActiveUI()
     {
         yield return new WaitForSeconds(5f);
         UI.SetActive(true);
-        //Randoms();
+    }
+    public void RandomAnswer(int i)
+    {
+        keywords = new string[] { keyWordsY[i] };
+        int r = Random.Range(0, 2);
+        answerText[r].text = keyWordsY[i];
+        if (r == 0)
+        {
+            answerText[1].text = keyWordsN[Random.Range(0, 10)];
+            answerText[2].text = keyWordsN[Random.Range(0, 10)];
+        }
+        else if (r == 1)
+        {
+            answerText[0].text = keyWordsN[Random.Range(0, 10)];
+            answerText[2].text = keyWordsN[Random.Range(0, 10)];
+        }
+        else
+        {
+            answerText[0].text = keyWordsN[Random.Range(0, 10)];
+            answerText[2].text = keyWordsN[Random.Range(0, 10)];
+        }
     }
 }
