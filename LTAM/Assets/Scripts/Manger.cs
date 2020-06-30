@@ -18,18 +18,20 @@ public class Manger : MonoBehaviour
     public float timeperFrame;
 
     bool[] check = new bool[9] ;
-    public GameObject UI;
+    public GameObject UI,UiEnd;
+    public Text pointText, pointEnd, textWorL, timeText;
+    private float point = 0,time,times;
     protected PhraseRecognizer recognizer;
     public string word = "";
     public Image image;
-    public Text[] answerText=new Text[3];
-    public Text results;
+    public Text[] answerText = new Text[3];
+    public Text results,textEnd;
     public List<Sprite> FULLHP;
     int[] d=new int[10];
-    bool ck = false;
+    bool ck = false, ck1 = true;
     string[] keyWordsY = new string[] { "Door", "Curtain", "Bed", "Book", "Sofa", "Phone", "Tivi", "Table Work" };
-    string[] keyWordsN = new string[] { "Money", "Dola", "Gold", "Silver", "Diamond", "Fridge","Lam Handsome",
-        "Quan Handsome","Lien Handsome","Dog","Cat","Roasted Chicken"};
+    string[] keyWordsN = new string[] { "Money", "Dola", "Gold", "Silver", "Diamond", "Fridge","Lam",
+        "Quan","Lien","Dog","Cat","Roasted Chicken"};
 
     private void Start()
     {
@@ -50,6 +52,8 @@ public class Manger : MonoBehaviour
         //    Debug.Log("Name: " + device);
         //}
         Randoms();
+        pointText.text = "Point : 0";
+        UiEnd.SetActive(false);
     }
 
     private void Recognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
@@ -72,9 +76,36 @@ public class Manger : MonoBehaviour
                     StartCoroutine(SetActiveUI());
                     Randoms();
                     check[i] = false;
+                    if (Time.time <= 50f)
+                    {
+                        point += 5;
+                    }
+                    else point += 3;
                 }
             }
         }
+        if (ck1)
+        {
+            pointText.text = "Point : " + point;
+        }
+        if (Time.time >= 100)
+        {
+            UI.SetActive(false);
+            UiEnd.SetActive(true);
+            ck1 = false;
+            textWorL.text = "LOSE";
+            textEnd.text = "Hết thời gian !!!" + "\n => Bạn ngu VL";
+            pointEnd.text = "Point : " + point;
+            pointEnd.color = Color.blue;
+        }
+        if (time >= 0)
+        {
+            float times = 100 - Time.time;
+            timeText.text = "Time : " + times + "s";
+            time = times;
+        }
+        else timeText.text = "Time : 0s";
+        
     }
 
     IEnumerator SlowlyMovePos()
@@ -113,7 +144,17 @@ public class Manger : MonoBehaviour
             }
             else
             {
-                
+                UI.SetActive(false);
+                UiEnd.SetActive(true);
+                ck1 = false;
+                pointEnd.text = "";
+                if (Time.time <= 75f)
+                {
+                    textWorL.text = "WINNER!!!";
+                    textEnd.text = "Tổng thời gian trả lời của bạn : " + Time.time + "s" + "\n => Bạn giỏi VL";
+                    pointEnd.text = "Point : " + point;
+                    pointEnd.color = Color.blue;
+                }
             }
         }
         else

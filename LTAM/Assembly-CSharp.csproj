@@ -66,6 +66,8 @@
     <Compile Include="Assets\Scripts\Manger.cs" />
     <Compile Include="Assets\Scripts\Scripts.cs" />
     <None Include="Assets\Items\laptop\Notebook Low-Poly Version.txt" />
+    <None Include="Assets\UI\SIL Open Font License.txt" />
+    <None Include="Assets\UI\SIL Open Font License 1.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
