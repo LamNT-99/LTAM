@@ -17,7 +17,7 @@ public class Manger : MonoBehaviour
     public float timeCameraMovePos;
     public float timeperFrame;
 
-    bool[] check = new bool[8] ;
+    bool[] check = new bool[9] ;
     public GameObject UI;
     protected PhraseRecognizer recognizer;
     public string word = "";
@@ -25,14 +25,15 @@ public class Manger : MonoBehaviour
     public Text[] answerText=new Text[3];
     public Text results;
     public List<Sprite> FULLHP;
-    int[] d=new int[9];
+    int[] d=new int[10];
+    bool ck = false;
     string[] keyWordsY = new string[] { "Door", "Curtain", "Bed", "Book", "Sofa", "Phone", "Tivi", "Table Work" };
     string[] keyWordsN = new string[] { "Money", "Dola", "Gold", "Silver", "Diamond", "Fridge","Lam Handsome",
         "Quan Handsome","Lien Handsome","Dog","Cat","Roasted Chicken"};
 
     private void Start()
     {
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 9; i++)
         {
             check[i] = true;
         }
@@ -41,16 +42,14 @@ public class Manger : MonoBehaviour
             recognizer = new KeywordRecognizer(keywords, confidence);
             recognizer.OnPhraseRecognized += Recognizer_OnPhraseRecognized;
             recognizer.Start();
-            Debug.Log(recognizer.IsRunning);
+            //Debug.Log(recognizer.IsRunning);
         }
 
-        foreach (var device in Microphone.devices)
-        {
-            Debug.Log("Name: " + device);
-        }
-        image.sprite = FULLHP[0];
-        answerText[0].text = "Door";answerText[1].text = keyWordsN[Random.Range(0, 10)]; answerText[2].text = keyWordsN[Random.Range(0, 10)];
-        keywords = new string[] { "Door" };
+        //foreach (var device in Microphone.devices)
+        //{
+        //    Debug.Log("Name: " + device);
+        //}
+        Randoms();
     }
 
     private void Recognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
@@ -61,96 +60,20 @@ public class Manger : MonoBehaviour
 
     void FixedUpdate()
     {
-        switch (word)
+        for(int i = 0; i < 8; i++)
         {
-            case "Door":
-                index = 0;
+            if (word == keyWordsY[i])
+            {
+                index = i;
                 StartCoroutine(SlowlyMovePos());
-                if (check[0])
+                if (check[i])
                 {
                     UI.SetActive(false);
                     StartCoroutine(SetActiveUI());
                     Randoms();
-                    check[0] = false;
+                    check[i] = false;
                 }
-                break;
-            case "Curtain":
-                index = 1;
-                StartCoroutine(SlowlyMovePos());
-                if (check[1])
-                {
-                    UI.SetActive(false);
-                    StartCoroutine(SetActiveUI());
-                    Randoms();
-                    check[1] = false;
-                }
-                break;
-            case "Bed":
-                index = 2;
-                StartCoroutine(SlowlyMovePos());
-                if (check[2])
-                {
-                    UI.SetActive(false);
-                    StartCoroutine(SetActiveUI());
-                    Randoms();
-                    check[2] = false;
-                }
-                break;
-            case "Book":
-                index = 3;
-                StartCoroutine(SlowlyMovePos());
-                if (check[3])
-                {
-                    UI.SetActive(false);
-                    StartCoroutine(SetActiveUI());
-                    Randoms();
-                    check[3] = false;
-                }
-                break;
-            case "Sofa":
-                index = 4;
-                StartCoroutine(SlowlyMovePos());
-                if (check[4])
-                {
-                    UI.SetActive(false);
-                    StartCoroutine(SetActiveUI());
-                    Randoms();   
-                    check[4] = false;
-                }
-                break;
-            case "Phone":
-                index = 5;
-                StartCoroutine(SlowlyMovePos());
-                if (check[5])
-                {
-                    UI.SetActive(false);
-                    StartCoroutine(SetActiveUI());
-                    Randoms();                    
-                    check[5] = false;
-                }
-                break;
-            case "Tivi":
-                index = 6;
-                StartCoroutine(SlowlyMovePos());
-                if (check[6])
-                {
-                    UI.SetActive(false);
-                    StartCoroutine(SetActiveUI());
-                    Randoms();
-                    check[6] = false;
-                }
-                break;
-            case "Table Work":
-                index = 7;
-                StartCoroutine(SlowlyMovePos());
-                if (check[7])
-                {
-                    UI.SetActive(false);
-                    StartCoroutine(SetActiveUI());
-                    Randoms();
-                    check[7] = false;
-                }
-                break;
+            }
         }
     }
 
@@ -176,10 +99,22 @@ public class Manger : MonoBehaviour
     }
     public void Randoms()
     {
-        int i = Random.Range(1, 7);
+        int i = Random.Range(0 , 8);
+        ck = false;
         if (d[i] == 1)
         {
-            Randoms();
+            for(int j = 0; j < 8; j++)
+            {
+                if (d[j] != 1) ck = true;
+            }
+            if (ck)
+            {
+                Randoms();
+            }
+            else
+            {
+                
+            }
         }
         else
         {
