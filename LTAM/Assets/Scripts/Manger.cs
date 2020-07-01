@@ -18,9 +18,10 @@ public class Manger : MonoBehaviour
     public float timeperFrame;
 
     bool[] check = new bool[9] ;
-    public GameObject UI,UiEnd;
+    bool start = false;
+    public GameObject UI, UiEnd, UIstart, UIHand, UIStatus;
     public Text pointText, pointEnd, textWorL, timeText;
-    private float point = 0,time,times;
+    private float point = 0,time=100f,times;
     protected PhraseRecognizer recognizer;
     public string word = "";
     public Image image;
@@ -54,6 +55,7 @@ public class Manger : MonoBehaviour
         Randoms();
         pointText.text = "Point : 0";
         UiEnd.SetActive(false);
+        UIStatus.SetActive(false);
     }
 
     private void Recognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
@@ -64,26 +66,30 @@ public class Manger : MonoBehaviour
 
     void FixedUpdate()
     {
-        for(int i = 0; i < 8; i++)
+        if (start)
         {
-            if (word == keyWordsY[i])
+            for(int i = 0; i < 8; i++)
             {
-                index = i;
-                StartCoroutine(SlowlyMovePos());
-                if (check[i])
+                if (word == keyWordsY[i])
                 {
-                    UI.SetActive(false);
-                    StartCoroutine(SetActiveUI());
-                    Randoms();
-                    check[i] = false;
-                    if (Time.time <= 50f)
+                    index = i;
+                    StartCoroutine(SlowlyMovePos());
+                    if (check[i])
                     {
-                        point += 5;
+                        UI.SetActive(false);
+                        StartCoroutine(SetActiveUI());
+                        Randoms();
+                        check[i] = false;
+                        if (Time.time <= 50f)
+                        {
+                            point += 5;
+                        }
+                        else point += 3;
                     }
-                    else point += 3;
                 }
             }
         }
+        
         if (ck1)
         {
             pointText.text = "Point : " + point;
@@ -97,15 +103,21 @@ public class Manger : MonoBehaviour
             textEnd.text = "Hết thời gian !!!" + "\n => Bạn ngu VL";
             pointEnd.text = "Point : " + point;
             pointEnd.color = Color.blue;
+            start = false;
         }
-        if (time >= 0)
+        if (time >= 0 && start == true)
         {
-            float times = 100 - Time.time;
-            timeText.text = "Time : " + times + "s";
-            time = times;
+            time -= 0.02f;
+            timeText.text = "Time : " + time + "s";
+            //time = times;
         }
         else timeText.text = "Time : 0s";
-        
+        if(word=="Super Handsome")
+        {
+            UIHand.SetActive(false);
+            UIStatus.SetActive(true);
+            start = true;
+        }
     }
 
     IEnumerator SlowlyMovePos()
@@ -189,5 +201,10 @@ public class Manger : MonoBehaviour
             answerText[0].text = keyWordsN[Random.Range(0, 10)];
             answerText[2].text = keyWordsN[Random.Range(0, 10)];
         }
+    }
+    public void buttonPlay()
+    {
+        UIstart.SetActive(false);
+        UIHand.SetActive(true);
     }
 }
