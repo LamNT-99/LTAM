@@ -450,6 +450,9 @@ MonoBehaviour:
   - {fileID: 3617427097048025563}
   - {fileID: 3617427096715742415}
   image: {fileID: 3617427097516362632}
+  cameraObj: {fileID: 983180258}
+  myGameObj: {fileID: 983180256}
+  speed: 2
 --- !u!82 &983180261
 AudioSource:
   m_ObjectHideFlags: 0

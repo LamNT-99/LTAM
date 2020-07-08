@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
-using UnityEngine.UIElements;
 using UnityEngine.Windows.Speech;
 using Image = UnityEngine.UI.Image;
 using UnityEngine.UI;
@@ -77,6 +75,29 @@ public class Manger : MonoBehaviour
         pointText.text = "Point : 0";
         UiEnd.SetActive(false);
         UIStatus.SetActive(false);
+    }
+
+    public Camera cameraObj;
+    public float speed = 2f;
+
+    void Update()
+    {
+        RotateCamera();
+    }
+
+    void RotateCamera()
+    {
+        //if (Input.GetMouseButton(0))
+        {
+            cameraObj.transform.Rotate(
+                                 Vector3.up,
+                                            Input.GetAxis("Mouse X") * speed);
+            cameraObj.transform.Rotate(
+                                          Vector3.right,
+                                            -Input.GetAxis("Mouse Y") * speed);
+
+            cameraObj.transform.eulerAngles = new Vector3(cameraObj.transform.eulerAngles.x , cameraObj.transform.eulerAngles.y ,0); 
+        }
     }
 
     //Update 
