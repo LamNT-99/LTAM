@@ -9,128 +9,48 @@ using UnityEngine.UI;
 
 public class Manger : MonoBehaviour
 {
+    //API
     public string[] keywords = new string[] { };
     public ConfidenceLevel confidence = ConfidenceLevel.Medium;
+    PhraseRecognizer recognizer;
+    public string word = "";
+
+    //pos
     public GameObject[] objTarget;
     public int index;
     public float timeCameraMoveRot;
     public float timeCameraMovePos;
     public float timeperFrame;
 
-    bool[] check = new bool[9] ;
-    bool start = false;
-    public GameObject UI, UiEnd, UIstart, UIHand, UIStatus;
-    public Text pointText, pointEnd, textWorL, timeText;
-    private float point = 0,time=100f,times;
-    protected PhraseRecognizer recognizer;
-    public string word = "";
-    public Image image;
-    public Text[] answerText = new Text[3];
-    public Text results,textEnd;
+    //source
+    private AudioSource audioSource;
     public List<Sprite> FULLHP;
-    int[] d=new int[10];
-    bool ck = false, ck1 = true;
+    public List<AudioClip> audioClips;
+
+    //UI
+    public GameObject UI, UiEnd, UIStart, UIHand, UIStatus, UIHelp;
+    public Text pointText, pointEnd, textWorL, timeText, results, textEnd;
+    public Text[] answerText = new Text[3];
+    public Image image;
+
+    //Check
+    private float point = 0, time = 100f, timeMore;
+    bool start = false, checkRandom = false;
+    int[] checkQuestion = new int[10];
+
+    //Answer Yes and No
     string[] keyWordsY = new string[] { "Door", "Curtain", "Bed", "Book", "Sofa", "Phone", "Tivi", "Table Work" };
-    string[] keyWordsN = new string[] { "Money", "Dola", "Gold", "Silver", "Diamond", "Fridge","Lam",
-        "Quan","Lien","Dog","Cat","Roasted Chicken"};
+    string[] keyWordsN = new string[] { "Money", "Dola", "Gold", "Silver", "Diamond", "Fridge","Laptop",
+        "Pot","Tree","Dog","Cat","Roasted Chicken"};
 
-    private void Start()
-    {
-        for(int i = 0; i < 9; i++)
-        {
-            check[i] = true;
-        }
-        if (keywords != null)
-        {
-            recognizer = new KeywordRecognizer(keywords, confidence);
-            recognizer.OnPhraseRecognized += Recognizer_OnPhraseRecognized;
-            recognizer.Start();
-            //Debug.Log(recognizer.IsRunning);
-        }
 
-        //foreach (var device in Microphone.devices)
-        //{
-        //    Debug.Log("Name: " + device);
-        //}
-        Randoms();
-        pointText.text = "Point : 0";
-        UiEnd.SetActive(false);
-        UIStatus.SetActive(false);
-    }
 
+
+    //API
     private void Recognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {
         word = args.text;
         results.text = "You said: <b>" + word + "</b>";
-    }
-
-    void FixedUpdate()
-    {
-        if (start)
-        {
-            for(int i = 0; i < 8; i++)
-            {
-                if (word == keyWordsY[i])
-                {
-                    index = i;
-                    StartCoroutine(SlowlyMovePos());
-                    if (check[i])
-                    {
-                        UI.SetActive(false);
-                        StartCoroutine(SetActiveUI());
-                        Randoms();
-                        check[i] = false;
-                        if (Time.time <= 50f)
-                        {
-                            point += 5;
-                        }
-                        else point += 3;
-                    }
-                }
-            }
-        }
-        
-        if (ck1)
-        {
-            pointText.text = "Point : " + point;
-        }
-        if (Time.time >= 100)
-        {
-            UI.SetActive(false);
-            UiEnd.SetActive(true);
-            ck1 = false;
-            textWorL.text = "LOSE";
-            textEnd.text = "Hết thời gian !!!" + "\n => Bạn ngu VL";
-            pointEnd.text = "Point : " + point;
-            pointEnd.color = Color.blue;
-            start = false;
-        }
-        if (time >= 0 && start == true)
-        {
-            time -= 0.02f;
-            timeText.text = "Time : " + time + "s";
-            //time = times;
-        }
-        else timeText.text = "Time : 0s";
-        if(word=="Super Handsome")
-        {
-            UIHand.SetActive(false);
-            UIStatus.SetActive(true);
-            start = true;
-        }
-    }
-
-    IEnumerator SlowlyMovePos()
-    {
-        float time = 0f;
-        while(transform.position != objTarget[index].transform.position)
-        {
-            yield return new WaitForSeconds(timeperFrame);
-
-            transform.position = Vector3.MoveTowards(transform.position, objTarget[index].transform.position, timeCameraMovePos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, objTarget[index].transform.rotation, time);
-            time += timeCameraMoveRot;
-        }
     }
     private void OnApplicationQuit()
     {
@@ -140,47 +60,195 @@ public class Manger : MonoBehaviour
             recognizer.Stop();
         }
     }
+
+    //start 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (keywords != null)
+        {
+            recognizer = new KeywordRecognizer(keywords, confidence);
+            recognizer.OnPhraseRecognized += Recognizer_OnPhraseRecognized;
+            recognizer.Start();
+        }
+
+        //UI start
+        Randoms();
+        pointText.text = "Point : 0";
+        UiEnd.SetActive(false);
+        UIStatus.SetActive(false);
+    }
+
+    //Update 
+    void FixedUpdate()
+    {
+        Handle();
+        GameLoss();
+        TimeEndGame();
+        PeOrRo();
+
+        // exit Game
+        if (word == "Quit")
+        {
+            CloseGame();
+        }
+        pointText.text = "Point : " + point;
+    }
+
+    //Check is people or robot
+    public void PeOrRo()
+    {
+        if (word == "Super Handsome")
+        {
+            UIHand.SetActive(false);
+            UIStatus.SetActive(true);
+            timeMore = Time.time;
+            StartCoroutine(wait(2, 1f));
+            start = true;
+            word = "";
+        }
+        if (word == "Handsome" || word == "Yes")
+        {
+            int exit = 0;
+            exit++;
+            if (exit == 2)
+            {
+                CloseGame();
+            }
+            word = "";
+        }
+    }
+
+    //Handle the main game
+    public void Handle()
+    {
+        if (start)
+        {
+            for (int i = 0; i < 11; i++)
+            {
+                if (i < 8)
+                {
+                    if (word == keyWordsY[i])
+                    {
+                        index = i;
+                        StartCoroutine(SlowlyMovePos());
+                        StartCoroutine(wait(5, 0));
+                        StartCoroutine(wait(2, 6));
+                        UI.SetActive(false);
+                        StartCoroutine(SetActiveUI());
+                        Randoms();
+                        if (Time.time <= 50f)
+                        {
+                            point += 5;
+                        }
+                        else point += 3;
+                        word = "";
+                    }
+                }
+                if (word == keyWordsN[i])
+                {
+                    StartCoroutine(wait(6, 0));
+                    point -= 2;
+                    word = "";
+                }
+            }
+        }
+    }
+
+    //Game Loss
+    public void GameLoss()
+    {
+        if (Time.time == (100f + Mathf.Round(timeMore)))
+        {
+            UI.SetActive(false);
+            UiEnd.SetActive(true);
+            audioSource.PlayOneShot(audioClips[3], 1f);
+            StartCoroutine(wait(4, 2));
+            textWorL.text = "LOSE";
+            textEnd.text = "Hết thời gian !!!" + "\n => Bạn ngu VC";
+            pointEnd.text = "Point : " + point;
+            pointEnd.color = Color.blue;
+            start = false;
+        }
+    }
+
+    //Game Winner
+    public void GameWinner()
+    {
+        UI.SetActive(false);
+        UiEnd.SetActive(true);
+        start = false;
+        pointEnd.text = "";
+        if (Time.time <= 100f)
+        {
+            textWorL.text = "WINNER!!!";
+            textEnd.text = "Tổng thời gian trả lời của bạn : " + Time.time + "s" + "\n => Bạn giỏi VC";
+            pointEnd.text = "Point : " + point;
+            pointEnd.color = Color.blue;
+        }
+    }
+
+    //Time end game
+    public void TimeEndGame()
+    {
+        if (time >= 0 && start == true)
+        {
+            time -= 0.02f;
+            timeText.text = "Time : " + Mathf.Round(time) + " s";
+        }
+        else timeText.text = "Time : 0 s";
+    }
+
+    //Move the camera to the object
+    IEnumerator SlowlyMovePos()
+    {
+        float time = 0f;
+        while (transform.position != objTarget[index].transform.position)
+        {
+            yield return new WaitForSeconds(timeperFrame);
+
+            transform.position = Vector3.MoveTowards(transform.position, objTarget[index].transform.position, timeCameraMovePos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, objTarget[index].transform.rotation, time);
+            time += timeCameraMoveRot;
+        }
+    }
+
+    // random number question
     public void Randoms()
     {
-        int i = Random.Range(0 , 8);
-        ck = false;
-        if (d[i] == 1)
+        int i = Random.Range(0, 8);
+        checkRandom = false;
+        if (checkQuestion[i] == 1)
         {
-            for(int j = 0; j < 8; j++)
+            for (int j = 0; j < 8; j++)
             {
-                if (d[j] != 1) ck = true;
+                if (checkQuestion[j] != 1) checkRandom = true;
             }
-            if (ck)
+            if (checkRandom)
             {
                 Randoms();
             }
             else
             {
-                UI.SetActive(false);
-                UiEnd.SetActive(true);
-                ck1 = false;
-                pointEnd.text = "";
-                if (Time.time <= 75f)
-                {
-                    textWorL.text = "WINNER!!!";
-                    textEnd.text = "Tổng thời gian trả lời của bạn : " + Time.time + "s" + "\n => Bạn giỏi VL";
-                    pointEnd.text = "Point : " + point;
-                    pointEnd.color = Color.blue;
-                }
+                GameWinner();
             }
         }
         else
         {
             image.sprite = FULLHP[i];
             RandomAnswer(i);
-            d[i] = 1;
+            checkQuestion[i] = 1;
         }
     }
+
+    //display UI before 5s
     IEnumerator SetActiveUI()
     {
         yield return new WaitForSeconds(5f);
         UI.SetActive(true);
     }
+
+    //Random Answer
     public void RandomAnswer(int i)
     {
         keywords = new string[] { keyWordsY[i] };
@@ -202,9 +270,38 @@ public class Manger : MonoBehaviour
             answerText[2].text = keyWordsN[Random.Range(0, 10)];
         }
     }
+
+    //click button Play(UI start)
     public void buttonPlay()
     {
-        UIstart.SetActive(false);
+        UIStart.SetActive(false);
         UIHand.SetActive(true);
+        audioSource.PlayOneShot(audioClips[0], 1f);
+        StartCoroutine(wait(1, 2));
+    }
+
+    // click button Help(UI start)
+    public void buttonHelp()
+    {
+        UIHelp.SetActive(true);
+    }
+
+    //exit UI Help
+    public void closeHelp()
+    {
+        UIHelp.SetActive(false);
+    }
+
+    //Quit game
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
+
+    //wait play audio clip
+    IEnumerator wait(int i, float j)
+    {
+        yield return new WaitForSeconds(j);
+        audioSource.PlayOneShot(audioClips[i], 1f);
     }
 }
