@@ -79,6 +79,21 @@ public class Manger : MonoBehaviour
         UIStatus.SetActive(false);
     }
 
+    //Update
+    private void Update()
+    {
+        RotateCamera();
+    }
+
+    private float speed = 2f;
+    private void RotateCamera()
+    {
+        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * speed);
+        transform.Rotate(Vector3.right, -Input.GetAxis("Mouse Y") * speed);
+
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+    }
+
     //Update 
     void FixedUpdate()
     {
