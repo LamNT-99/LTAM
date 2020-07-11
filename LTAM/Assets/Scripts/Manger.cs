@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
-using UnityEngine.UIElements;
 using UnityEngine.Windows.Speech;
 using Image = UnityEngine.UI.Image;
 using UnityEngine.UI;
@@ -79,12 +77,20 @@ public class Manger : MonoBehaviour
         UIStatus.SetActive(false);
     }
 
+<<<<<<< HEAD
     //Update
     private void Update()
+=======
+    public Camera cameraObj;
+    public float speed = 2f;
+
+    void Update()
+>>>>>>> 3c668d5abe298bafddfe18d5a172db7668f0d4de
     {
         RotateCamera();
     }
 
+<<<<<<< HEAD
     private float speed = 2f;
     private void RotateCamera()
     {
@@ -92,6 +98,21 @@ public class Manger : MonoBehaviour
         transform.Rotate(Vector3.right, -Input.GetAxis("Mouse Y") * speed);
 
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+=======
+    void RotateCamera()
+    {
+        //if (Input.GetMouseButton(0))
+        {
+            cameraObj.transform.Rotate(
+                                 Vector3.up,
+                                            Input.GetAxis("Mouse X") * speed);
+            cameraObj.transform.Rotate(
+                                          Vector3.right,
+                                            -Input.GetAxis("Mouse Y") * speed);
+
+            cameraObj.transform.eulerAngles = new Vector3(cameraObj.transform.eulerAngles.x , cameraObj.transform.eulerAngles.y ,0); 
+        }
+>>>>>>> 3c668d5abe298bafddfe18d5a172db7668f0d4de
     }
 
     //Update 
