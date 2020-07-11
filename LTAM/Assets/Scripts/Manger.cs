@@ -15,10 +15,11 @@ public class Manger : MonoBehaviour
 
     //pos
     public GameObject[] objTarget;
-    public int index;
-    public float timeCameraMoveRot;
-    public float timeCameraMovePos;
-    public float timeperFrame;
+    private int index;
+    private float timeCameraMoveRot= 0.05f;
+    private float timeCameraMovePos= 0.5f;
+    private float timeperFrame= 0.05f;
+    private float speed = 2f;
 
     //source
     private AudioSource audioSource;
@@ -33,15 +34,13 @@ public class Manger : MonoBehaviour
 
     //Check
     private float point = 0, time = 100f, timeMore;
-    bool start = false, checkRandom = false;
+    bool start = false, checkRandom = false, rotateCamera = false, closeUILoss = false;
     int[] checkQuestion = new int[10];
 
     //Answer Yes and No
     string[] keyWordsY = new string[] { "Door", "Curtain", "Bed", "Book", "Sofa", "Phone", "Tivi", "Table Work" };
     string[] keyWordsN = new string[] { "Money", "Dola", "Gold", "Silver", "Diamond", "Fridge","Laptop",
         "Pot","Tree","Dog","Cat","Roasted Chicken"};
-
-
 
 
     //API
@@ -77,49 +76,30 @@ public class Manger : MonoBehaviour
         UIStatus.SetActive(false);
     }
 
-<<<<<<< HEAD
     //Update
-    private void Update()
-=======
-    public Camera cameraObj;
-    public float speed = 2f;
-
     void Update()
->>>>>>> 3c668d5abe298bafddfe18d5a172db7668f0d4de
     {
-        RotateCamera();
+        if (rotateCamera)
+        {
+            RotateCamera();
+        }
+        
     }
 
-<<<<<<< HEAD
-    private float speed = 2f;
     private void RotateCamera()
     {
         transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * speed);
         transform.Rotate(Vector3.right, -Input.GetAxis("Mouse Y") * speed);
 
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
-=======
-    void RotateCamera()
-    {
-        //if (Input.GetMouseButton(0))
-        {
-            cameraObj.transform.Rotate(
-                                 Vector3.up,
-                                            Input.GetAxis("Mouse X") * speed);
-            cameraObj.transform.Rotate(
-                                          Vector3.right,
-                                            -Input.GetAxis("Mouse Y") * speed);
-
-            cameraObj.transform.eulerAngles = new Vector3(cameraObj.transform.eulerAngles.x , cameraObj.transform.eulerAngles.y ,0); 
-        }
->>>>>>> 3c668d5abe298bafddfe18d5a172db7668f0d4de
     }
 
     //Update 
     void FixedUpdate()
     {
+        if (!closeUILoss) GameLoss();
+        else UI.SetActive(false);
         Handle();
-        GameLoss();
         TimeEndGame();
         PeOrRo();
 
@@ -171,7 +151,7 @@ public class Manger : MonoBehaviour
                         StartCoroutine(wait(5, 0));
                         StartCoroutine(wait(2, 6));
                         UI.SetActive(false);
-                        StartCoroutine(SetActiveUI());
+                        StartCoroutine(SetActiveUI(5f, UI, true));
                         Randoms();
                         if (Time.time <= 50f)
                         {
@@ -195,8 +175,7 @@ public class Manger : MonoBehaviour
     public void GameLoss()
     {
         if (Time.time == (100f + Mathf.Round(timeMore)))
-        {
-            UI.SetActive(false);
+        { 
             UiEnd.SetActive(true);
             audioSource.PlayOneShot(audioClips[3], 1f);
             StartCoroutine(wait(4, 2));
@@ -205,15 +184,19 @@ public class Manger : MonoBehaviour
             pointEnd.text = "Point : " + point;
             pointEnd.color = Color.blue;
             start = false;
+            rotateCamera = true;
+            StartCoroutine(SetActiveUI(7, UiEnd, false));
         }
     }
 
     //Game Winner
     public void GameWinner()
     {
-        UI.SetActive(false);
         UiEnd.SetActive(true);
         start = false;
+        UI.SetActive(false);
+        rotateCamera = true;
+        closeUILoss = true;
         pointEnd.text = "";
         if (Time.time <= 100f)
         {
@@ -221,7 +204,9 @@ public class Manger : MonoBehaviour
             textEnd.text = "Tổng thời gian trả lời của bạn : " + Time.time + "s" + "\n => Bạn giỏi VC";
             pointEnd.text = "Point : " + point;
             pointEnd.color = Color.blue;
+            StartCoroutine(SetActiveUI(7, UiEnd, false));
         }
+        
     }
 
     //Time end game
@@ -277,11 +262,11 @@ public class Manger : MonoBehaviour
         }
     }
 
-    //display UI before 5s
-    IEnumerator SetActiveUI()
+    //display UI before time
+    IEnumerator SetActiveUI(float time,GameObject UI ,bool check)
     {
-        yield return new WaitForSeconds(5f);
-        UI.SetActive(true);
+        yield return new WaitForSeconds(time);
+        UI.SetActive(check);
     }
 
     //Random Answer

@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 458ae8c7ae321bf4882a07cc2e66b1d8
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Black Jack
+  fontNames:
+  - Black Jack
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3fcf92edf277a40408cda0cc8c6b278f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

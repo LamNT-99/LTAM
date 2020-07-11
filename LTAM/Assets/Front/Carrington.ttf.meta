@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: f7439a0b69b25ea4f9231c0c3dd46ff4
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Carrington
+  fontNames:
+  - Carrington
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 423b633264765b945befcf1c0b942002, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
