@@ -215,7 +215,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.32375002, y: 0.71756345}
   m_AnchorMax: {x: 0.6937501, y: 0.8417183}
-  m_AnchoredPosition: {x: 0.104385376, y: 1.7118988}
+  m_AnchoredPosition: {x: 0.10437012, y: 1.7119141}
   m_SizeDelta: {x: -0.20874023, y: 3.4238777}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &276726765
@@ -620,7 +620,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 983180256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.71, y: 2.55, z: 0.66}
+  m_LocalPosition: {x: 13.46, y: 3.2, z: 8.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -691,6 +691,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e00c2b9baef0aab4eab77306c374d316, type: 3}
   - {fileID: 8300000, guid: 2d6fb3036cea0c3458d5ee29a63eca1d, type: 3}
   - {fileID: 8300000, guid: aaccea408ef0627488d3a6b06b5dd1a4, type: 3}
+  - {fileID: 8300000, guid: ed3aa351a7458a045ade45f8ce6fc7a3, type: 3}
   UI: {fileID: 3617427095505405842}
   UiEnd: {fileID: 3617427097261364437}
   UIStart: {fileID: 3617427095617122705}
@@ -703,6 +704,7 @@ MonoBehaviour:
   timeText: {fileID: 3617427097155280178}
   results: {fileID: 3617427096052044735}
   textEnd: {fileID: 3617427095835487135}
+  noteText: {fileID: 3617427096444372753}
   answerText:
   - {fileID: 3617427096179784461}
   - {fileID: 3617427097048025563}

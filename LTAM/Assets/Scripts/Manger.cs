@@ -28,7 +28,7 @@ public class Manger : MonoBehaviour
 
     //UI
     public GameObject UI, UiEnd, UIStart, UIHand, UIStatus, UIHelp;
-    public Text pointText, pointEnd, textWorL, timeText, results, textEnd;
+    public Text pointText, pointEnd, textWorL, timeText, results, textEnd ,noteText;
     public Text[] answerText = new Text[3];
     public Image image;
 
@@ -92,6 +92,13 @@ public class Manger : MonoBehaviour
         transform.Rotate(Vector3.right, -Input.GetAxis("Mouse Y") * speed);
 
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+        transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * speed * Time.deltaTime * 2f);
+        transform.Translate(Vector3.forward * Input.GetAxis("Vertical") * speed * Time.deltaTime * 2f);
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if (transform.position.z >= 18f) transform.position = new Vector3(transform.position.x, transform.position.y, 18f);
+        if (transform.position.z <= 5f) transform.position = new Vector3(transform.position.x, transform.position.y, 5f);
+        if (transform.position.x >= 23f) transform.position = new Vector3(23f, transform.position.y, transform.position.z);
+        if (transform.position.x <= 8f) transform.position = new Vector3(8f, transform.position.y, transform.position.z);
     }
 
     //Update 
@@ -131,6 +138,7 @@ public class Manger : MonoBehaviour
             {
                 CloseGame();
             }
+            audioSource.PlayOneShot(audioClips[7], 1f);
             word = "";
         }
     }
@@ -184,6 +192,7 @@ public class Manger : MonoBehaviour
             pointEnd.text = "Point : " + point;
             pointEnd.color = Color.blue;
             start = false;
+            UI.SetActive(false);
             rotateCamera = true;
             StartCoroutine(SetActiveUI(7, UiEnd, false));
         }
@@ -194,7 +203,6 @@ public class Manger : MonoBehaviour
     {
         UiEnd.SetActive(true);
         start = false;
-        UI.SetActive(false);
         rotateCamera = true;
         closeUILoss = true;
         pointEnd.text = "";
@@ -206,7 +214,7 @@ public class Manger : MonoBehaviour
             pointEnd.color = Color.blue;
             StartCoroutine(SetActiveUI(7, UiEnd, false));
         }
-        
+        noteText.text = "You can view rooms by pressing key A, D, W, S to move";
     }
 
     //Time end game
