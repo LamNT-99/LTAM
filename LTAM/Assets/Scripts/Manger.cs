@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.UIElements;
 using UnityEngine.Windows.Speech;
 using Image = UnityEngine.UI.Image;
 using UnityEngine.UI;
@@ -98,14 +100,19 @@ public class Manger : MonoBehaviour
         if (transform.position.z >= 18f) transform.position = new Vector3(transform.position.x, transform.position.y, 18f);
         if (transform.position.z <= 5f) transform.position = new Vector3(transform.position.x, transform.position.y, 5f);
         if (transform.position.x >= 23f) transform.position = new Vector3(23f, transform.position.y, transform.position.z);
-        if (transform.position.x <= 8f) transform.position = new Vector3(8f, transform.position.y, transform.position.z);
+        if (transform.position.x <= 5f) transform.position = new Vector3(5f, transform.position.y, transform.position.z);
     }
 
     //Update 
     void FixedUpdate()
     {
-        if (!closeUILoss) GameLoss();
-        else UI.SetActive(false);
+        if (!closeUILoss)
+            GameLoss();
+        else
+        {
+            UI.SetActive(false);
+            StartCoroutine(SetActiveUI(7, UiEnd, false));
+        }
         Handle();
         TimeEndGame();
         PeOrRo();
@@ -156,8 +163,12 @@ public class Manger : MonoBehaviour
                     {
                         index = i;
                         StartCoroutine(SlowlyMovePos());
-                        StartCoroutine(wait(5, 0));
-                        StartCoroutine(wait(2, 6));
+                        if (!closeUILoss)
+                        {
+                            StartCoroutine(wait(5, 0));
+                            StartCoroutine(wait(2, 6));
+                        }
+                        
                         UI.SetActive(false);
                         StartCoroutine(SetActiveUI(5f, UI, true));
                         Randoms();
@@ -206,15 +217,13 @@ public class Manger : MonoBehaviour
         rotateCamera = true;
         closeUILoss = true;
         pointEnd.text = "";
-        if (Time.time <= 100f)
-        {
-            textWorL.text = "WINNER!!!";
-            textEnd.text = "Tổng thời gian trả lời của bạn : " + Time.time + "s" + "\n => Bạn giỏi VC";
-            pointEnd.text = "Point : " + point;
-            pointEnd.color = Color.blue;
-            StartCoroutine(SetActiveUI(7, UiEnd, false));
-        }
+        textWorL.text = "WINNER!!!";
+        textEnd.text = "Tổng thời gian trả lời của bạn : " + (Time.time-timeMore) + "s" + "\n => Bạn giỏi VC";
+        pointEnd.text = "Point : " + point;
+        pointEnd.color = Color.blue;
+        StartCoroutine(SetActiveUI(7, UiEnd, false));
         noteText.text = "You can view rooms by pressing key A, D, W, S to move";
+        StopAllCoroutines();
     }
 
     //Time end game
@@ -328,9 +337,9 @@ public class Manger : MonoBehaviour
     }
 
     //wait play audio clip
-    IEnumerator wait(int i, float j)
+    IEnumerator wait(int audio, float time)
     {
-        yield return new WaitForSeconds(j);
-        audioSource.PlayOneShot(audioClips[i], 1f);
+        yield return new WaitForSeconds(time);
+        audioSource.PlayOneShot(audioClips[audio], 1f);
     }
 }
