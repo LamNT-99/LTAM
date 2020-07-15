@@ -25,7 +25,6 @@ public class Manger : MonoBehaviour
 
     //source
     private AudioSource audioSource;
-    public List<Sprite> FULLHP;
     public List<AudioClip> audioClips;
 
     //UI
@@ -33,9 +32,10 @@ public class Manger : MonoBehaviour
     public Text pointText, pointEnd, textWorL, timeText, results, textEnd ,noteText;
     public Text[] answerText = new Text[3];
     public Image image;
+    public List<Sprite> FULLHP;
 
     //Check
-    private float point = 0, time = 100f, timeMore;
+    private float point = 0, time = 100f, timeMore, exit = 0;
     bool start = false, checkRandom = false, rotateCamera = false, closeUILoss = false;
     int[] checkQuestion = new int[10];
 
@@ -139,7 +139,6 @@ public class Manger : MonoBehaviour
         }
         if (word == "Handsome" || word == "Yes")
         {
-            int exit = 0;
             exit++;
             if (exit == 2)
             {
@@ -168,7 +167,6 @@ public class Manger : MonoBehaviour
                             StartCoroutine(wait(5, 0));
                             StartCoroutine(wait(2, 6));
                         }
-                        
                         UI.SetActive(false);
                         StartCoroutine(SetActiveUI(5f, UI, true));
                         Randoms();
