@@ -17,7 +17,7 @@ public class Manger : MonoBehaviour
 
     //pos
     public GameObject[] objTarget;
-    private int index;
+    private int index, indexAuto;
     private float timeCameraMoveRot= 0.05f;
     private float timeCameraMovePos= 0.5f;
     private float timeperFrame= 0.05f;
@@ -28,7 +28,7 @@ public class Manger : MonoBehaviour
     public List<AudioClip> audioClips;
 
     //UI
-    public GameObject UI, UiEnd, UIStart, UIHand, UIStatus, UIHelp;
+    public GameObject UI, UiEnd, UIStart, UIHand, UIStatus, UIHelp ,UIChoose, UIAdd, UIConver;
     public Text pointText, pointEnd, textWorL, timeText, results, textEnd ,noteText;
     public Text[] answerText = new Text[3];
     public Image image;
@@ -36,8 +36,9 @@ public class Manger : MonoBehaviour
 
     //Check
     private float point = 0, time = 100f, timeMore, exit = 0;
-    bool start = false, checkRandom = false, rotateCamera = false, closeUILoss = false;
+    bool start = false, checkRandom = false, rotateCamera = false, closeUILoss = false, autoMove = false, autoFinish = false, closeHand = false;
     int[] checkQuestion = new int[10];
+    public bool checkClickOBJ = false;
 
     //Answer Yes and No
     string[] keyWordsY = new string[] { "Door", "Curtain", "Bed", "Book", "Sofa", "Phone", "Tivi", "Table Work" };
@@ -73,11 +74,16 @@ public class Manger : MonoBehaviour
 
         //UI start
         Randoms();
-        pointText.text = "Point : 0";
+        pointText.text = " 0 ";
         UiEnd.SetActive(false);
         UIStatus.SetActive(false);
+        UI.SetActive(false);
+        UIChoose.SetActive(false);
+        UIAdd.SetActive(false);
+        UIConver.SetActive(false);
     }
 
+   
     //Update
     void Update()
     {
@@ -122,22 +128,27 @@ public class Manger : MonoBehaviour
         {
             CloseGame();
         }
-        pointText.text = "Point : " + point;
+        pointText.text = " " + point;
+        AutoMove();
+        CheckAutoAW();
     }
 
     //Check is people or robot
     public void PeOrRo()
     {
-        if (word == "Super Handsome")
+        if (word == "Super Handsome" && !closeHand)
         {
             UIHand.SetActive(false);
-            UIStatus.SetActive(true);
-            timeMore = Time.time;
-            StartCoroutine(wait(2, 1f));
-            start = true;
+            UIChoose.SetActive(true);
+            //UIStatus.SetActive(true);
+            //timeMore = Time.time;
+            //StartCoroutine(wait(2, 1f));
+            //start = true;
+            StartCoroutine(wait(8, 1f));
+            closeHand = true;
             word = "";
         }
-        if (word == "Handsome" || word == "Yes")
+        if ((word == "Handsome" || word == "Yes") && !closeHand)
         {
             exit++;
             if (exit == 2)
@@ -161,7 +172,7 @@ public class Manger : MonoBehaviour
                     if (word == keyWordsY[i])
                     {
                         index = i;
-                        StartCoroutine(SlowlyMovePos());
+                        StartCoroutine(SlowlyMovePos(index));
                         if (!closeUILoss)
                         {
                             StartCoroutine(wait(5, 0));
@@ -191,7 +202,7 @@ public class Manger : MonoBehaviour
     //Game Loss
     public void GameLoss()
     {
-        if (Time.time == (100f + Mathf.Round(timeMore)))
+        if (Time.time == (100f + Mathf.Round(timeMore)) && start == true)
         { 
             UiEnd.SetActive(true);
             audioSource.PlayOneShot(audioClips[3], 1f);
@@ -202,7 +213,7 @@ public class Manger : MonoBehaviour
             pointEnd.color = Color.blue;
             start = false;
             UI.SetActive(false);
-            rotateCamera = true;
+            //rotateCamera = true;
             StartCoroutine(SetActiveUI(7, UiEnd, false));
         }
     }
@@ -222,6 +233,7 @@ public class Manger : MonoBehaviour
         StartCoroutine(SetActiveUI(7, UiEnd, false));
         noteText.text = "You can view rooms by pressing key A, D, W, S to move";
         StopAllCoroutines();
+        checkClickOBJ = true;
     }
 
     //Time end game
@@ -230,16 +242,16 @@ public class Manger : MonoBehaviour
         if (time >= 0 && start == true)
         {
             time -= 0.02f;
-            timeText.text = "Time : " + Mathf.Round(time) + " s";
+            timeText.text = " " + Mathf.Round(time) + " s";
         }
-        else timeText.text = "Time : 0 s";
+        else timeText.text = " 0 s ";
     }
 
     //Move the camera to the object
-    IEnumerator SlowlyMovePos()
+    IEnumerator SlowlyMovePos(int index)
     {
         float time = 0f;
-        while (transform.position != objTarget[index].transform.position)
+        while (transform.position != objTarget[index].transform.position || transform.rotation != objTarget[index].transform.rotation)
         {
             yield return new WaitForSeconds(timeperFrame);
 
@@ -339,5 +351,91 @@ public class Manger : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         audioSource.PlayOneShot(audioClips[audio], 1f);
+    }
+
+    //Question mode selection
+    public void ButtonQuestion()
+    {
+        start = true;
+        UI.SetActive(true);
+        UIStatus.SetActive(true);
+        UIAdd.SetActive(true);
+        UIChoose.SetActive(false);
+        timeMore = Time.time;
+        StartCoroutine(wait(2, 1f));
+        noteText.text = "Your task is to answer questions to move to objects!";
+    }
+
+    //Auto mode selection
+    public void ButtonAuto()
+    {
+        StopAllCoroutines();
+        UIChoose.SetActive(false);
+        UI.SetActive(false);
+        autoMove = true;
+        start = false;
+        UIAdd.SetActive(true);
+        UIConver.SetActive(false);
+        UIStatus.SetActive(false);
+        indexAuto = 0;
+    } 
+
+    IEnumerator Auto(float time)
+    {
+        yield return new WaitForSeconds(time);
+        indexAuto++;
+        autoMove = true;
+    }
+
+    // auto move camera to object.
+    public void AutoMove()
+    {
+        if (autoMove)
+        {
+            if (indexAuto >= 8)
+            {
+                rotateCamera = true;
+                autoMove = false;
+                StopAllCoroutines();
+                autoFinish = true;
+                checkClickOBJ = true;
+                noteText.text = "You can say the name of the item or press the key A,D,W,S to move to the object";
+            }
+            else
+            {
+                StartCoroutine(SlowlyMovePos(indexAuto));
+                StartCoroutine(wait(indexAuto+9, 1f));
+                StartCoroutine(Auto(6f));
+                autoMove = false;
+            }
+            
+        }
+    }
+
+    //voice control after auto mode
+    public void CheckAutoAW()
+    {
+        if (autoFinish)
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                if (word == keyWordsY[i])
+                {
+                    StartCoroutine(SlowlyMovePos(i));
+                    StartCoroutine(wait(i + 9, 1f));
+                    word = "";
+                }
+            }
+        }
+        
+    }
+
+    public void clickAdd()
+    {
+        UIConver.SetActive(true);
+    }
+    public void CloseAdd()
+    {
+        UIConver.SetActive(false);
     }
 }

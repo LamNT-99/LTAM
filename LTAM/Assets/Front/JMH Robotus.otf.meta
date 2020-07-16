@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 3fed86b2df2ae454b85acb732a369339
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: JMH Robotus
+  fontNames:
+  - JMH Robotus
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: e6f1dbef6c02a084d9b233bcd210b185, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
